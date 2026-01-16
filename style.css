@@ -178,7 +178,7 @@ body {
 /* Right Side - Image */
 .image-section {
     flex: 1;
-    background: url('assets/auth_illustration_sunset_snow_1768224398512.png') no-repeat center center/cover;
+    background: url('assets/auth_illustration_sunset_snow_17682243985121.png') no-repeat center center/cover;
     border-radius: 0 30px 30px 0; /* Only right corners if needed, but container clips it */
     position: relative;
     display: flex;
