@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  
+
+  <title>Login - The Artisans</title>
+  <link rel="stylesheet" href="login.css">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+
+<body>
+
+  <div class="container">
+
+    <!-- Left Section (Form) -->
+    <div class="login-section">
+      <h1>Hello Again!</h1>
+      <p class="sub-text">Let's get started with your 30 days trial</p>
+
+      <div class="form-group">
+        <input type="email" id="email" placeholder="Email">
+      </div>
+
+      <div class="form-group">
+        <input type="password" id="password" placeholder="Password">
+        <i class="fas fa-eye-slash icon" id="togglePassword"></i>
+      </div>
+
+      <div class="forgot-pass">
+        <a href="#">Recovery Password</a>
+      </div>
+
+      <button class="btn-primary" onclick="handleLogin()">Sign In</button>
+
+      <div class="divider">
+        <span>Or continue with</span>
+      </div>
+
+      <div class="social-login">
+        <div class="social-btn" onclick="googleLogin()">
+          <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google">
+        </div>
+        <div class="social-btn">
+          <i class="fab fa-apple" style="font-size: 24px;"></i>
+        </div>
+        <div class="social-btn">
+          <i class="fab fa-facebook-f" style="font-size: 20px; color: #1877F2;"></i>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right Section (Image) -->
+    <div class="image-section">
+      <div class="image-overlay-text">
+        <p>Finally, all your work in one place.</p>
+      </div>
+    </div>
+
+  </div>
+
+  <script type="module">
+
+    onAuthStateChanged(auth, (user) => {
+  if (user) {
+    window.location.href = "dashboard.html";
+  }
+});
+
+onAuthStateChanged(auth, (user) => {
+  if (user) {
+    window.location.replace("dashboard.html");
+  }
+});
+
+
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-app.js";
+  import {
+    getAuth,
+    signInWithEmailAndPassword,
+    GoogleAuthProvider,
+    signInWithPopup,
+    onAuthStateChanged
+  } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-auth.js";
+
+  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+
+
+const firebaseConfig = {
+  apiKey: "AIzaSyBD1oG6T51lDZwllvb4626yHQSzEl5EeCM",
+  authDomain: "the-artisans-fb882.firebaseapp.com",
+  projectId: "the-artisans-fb882",
+  storageBucket: "the-artisans-fb882.appspot.com",
+  messagingSenderId: "893142745890",
+  appId: "1:893142745890:web:1a68f554bcdb1a49771b7b"
+};
+
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const provider = new GoogleAuthProvider();
+
+  // ✅ Auto-redirect if already logged in
+  
+
+  window.handleLogin = function () {
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
+
+    if (!email || !password) {
+      alert("Please enter email and password");
+      return;
+    }
+
+    signInWithEmailAndPassword(auth, email, password)
+      .then(() => {
+        window.location.href = "dashboard.html";
+      })
+      .catch(err => alert(err.message));
+  };
+
+  window.googleLogin = function () {
+    signInWithPopup(auth, provider)
+      .then(() => {
+        window.location.href = "dashboard.html";
+      })
+      .catch(err => alert(err.message));
+  };
+</script>
+
+
+</body>
+
+</html>

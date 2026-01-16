@@ -1,0 +1,159 @@
+body {
+  margin: 0;
+  font-family: 'Poppins', sans-serif;
+  background: #f5f7fb;
+  display: flex;
+}
+
+/* Sidebar */
+.sidebar {
+  width: 240px;
+  background: #8D5B66;
+  color: white;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.sidebar h2 {
+  margin-bottom: 40px;
+}
+
+.spacer {
+  flex: 1;
+}
+
+.logout-btn {
+  background: rgba(255,255,255,0.2);
+  border: none;
+  padding: 12px;
+  border-radius: 8px;
+  color: white;
+  cursor: pointer;
+}
+
+/* Main */
+.main-content {
+  flex: 1;
+  padding: 32px;
+}
+
+/* Topbar */
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+/* Cards */
+.card {
+  background: white;
+  padding: 24px;
+  border-radius: 16px;
+  margin-bottom: 24px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.05);
+}
+
+.row {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+input {
+  flex: 1;
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+}
+
+input:focus {
+  outline: none;
+  border-color: #8D5B66;
+  box-shadow: 0 0 0 2px rgba(141, 91, 102, 0.2);
+}
+
+
+button {
+  padding: 12px 20px;
+  background: #8D5B66;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.1s ease;
+}
+
+button:hover {
+  background: #724851;
+}
+
+button:active {
+  transform: scale(0.97);
+}
+
+
+/* Chat */
+.chat-container {
+  display: flex;
+  flex-direction: column;
+  height: 300px;
+}
+
+.chat-messages {
+  flex: 1;
+  overflow-y: auto;
+  background: #fafafa;
+  padding: 16px;
+}
+
+.message {
+  margin-bottom: 10px;
+  padding: 10px 14px;
+  border-radius: 10px;
+  max-width: 75%;
+}
+
+.user-msg {
+  background: #8D5B66;
+  color: white;
+  margin-left: auto;
+}
+
+.ai-msg {
+  background: #e5e7eb;
+}
+
+.chat-input {
+  display: flex;
+  gap: 10px;
+}
+
+.typing {
+  display: flex;
+  gap: 6px;
+}
+
+.typing span {
+  width: 8px;
+  height: 8px;
+  background: #9ca3af;
+  border-radius: 50%;
+  animation: blink 1.4s infinite both;
+}
+
+.typing span:nth-child(2) {
+  animation-delay: 0.2s;
+}
+.typing span:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+@keyframes blink {
+  0% { opacity: 0.2; }
+  20% { opacity: 1; }
+  100% { opacity: 0.2; }
+}
+

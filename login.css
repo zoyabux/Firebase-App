@@ -1,0 +1,79 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap');
+
+:root {
+  --primary-color: #8D5B66;
+  --primary-hover: #724851;
+  --bg-color: #f0f2f5;
+  --text-color: #333;
+  --input-bg: #f8f9fa;
+  --border-radius: 12px;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #e8e8e8;
+}
+
+/* Login layout */
+.container {
+  display: flex;
+  width: 90%;
+  max-width: 1200px;
+  height: 90vh;
+  background: #fff;
+  border-radius: 30px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+  overflow: hidden;
+}
+
+/* Left side */
+.login-section {
+  flex: 1;
+  padding: 60px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Inputs & buttons */
+.form-group input {
+  width: 100%;
+  padding: 15px 20px;
+  border-radius: 12px;
+  border: 1px solid #eee;
+}
+
+.btn-primary {
+  width: 100%;
+  padding: 15px;
+  background: var(--primary-color);
+  color: white;
+  border-radius: 12px;
+}
+
+/* Image side */
+.image-section {
+  flex: 1;
+  background: url('assets/auth_illustration_sunset_snow_1768224398512.png') no-repeat center/cover;
+}
+.social-login {
+  position: relative;
+  z-index: 10;
+}
+
+.social-btn {
+  position: relative;
+  z-index: 11;
+  cursor: pointer;
+}

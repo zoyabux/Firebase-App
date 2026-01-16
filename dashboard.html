@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Dashboard – The Artisans</title>
+  <link rel="stylesheet" href="dashboard.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+</head>
+
+<body style="display:none">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <h2>The Artisans</h2>
+    <div class="spacer"></div>
+    <button class="logout-btn" onclick="handleLogout()">Logout</button>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="main-content">
+
+    <header class="topbar">
+      <h1>Dashboard</h1>
+      <span id="userEmail">Loading...</span>
+    </header>
+
+    <section class="card">
+      <h3>Saved Messages</h3>
+      <div class="row">
+        <input id="message" placeholder="Enter data">
+        <button onclick="saveData()">Save</button>
+      </div>
+      <div id="dataList"></div>
+    </section>
+
+    <section class="card">
+      <h3>Ask Gemini AI</h3>
+
+      <div class="chat-container">
+        <div class="chat-messages" id="chatMessages">
+          <div class="message ai-msg">Hello! How can I help you today?</div>
+        </div>
+
+        <div class="chat-input">
+          <input id="chatInput" placeholder="Type your question...">
+          <button onclick="sendToGemini()">Send</button>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- FIREBASE + JS (UNCHANGED LOGIC) -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-app.js";
+    import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-auth.js";
+    import { getFirestore, addDoc, collection, query, onSnapshot, orderBy }
+      from "https://www.gstatic.com/firebasejs/10.7.0/firebase-firestore.js";
+
+    // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+const firebaseConfig = {
+  apiKey: "AIzaSyBD1oG6T51lDZwllvb4626yHQSzEl5EeCM",
+  authDomain: "the-artisans-fb882.firebaseapp.com",
+  projectId: "the-artisans-fb882",
+  storageBucket: "the-artisans-fb882.appspot.com",
+
+  messagingSenderId: "893142745890",
+  appId: "1:893142745890:web:1a68f554bcdb1a49771b7b",
+  measurementId: "G-X88DLW8XCN"
+};
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+
+//     onAuthStateChanged(auth, (user) => {
+//   if (!user) {
+//     window.location.href = "login.html";
+//   } else {
+//     document.body.style.display = "block";
+//     document.getElementById("userEmail").innerText = user.email;
+//   }
+// });
+
+
+    onAuthStateChanged(auth, (user) => {
+  if (!user) {
+    window.location.replace("login.html");
+  } else {
+    document.body.style.display = "flex";
+    document.getElementById("userEmail").innerText = user.email;
+    loadData();
+  }
+});
+
+
+
+    window.handleLogout = () => signOut(auth);
+
+    window.saveData = async () => {
+      const msg = document.getElementById("message").value;
+      if (!msg) return;
+      await addDoc(collection(db, "messages"), {
+        text: msg,
+        user: auth.currentUser.email,
+        createdAt: new Date()
+      });
+      document.getElementById("message").value = "";
+    };
+
+    function loadData() {
+      const q = query(collection(db, "messages"), orderBy("createdAt", "desc"));
+      onSnapshot(q, snap => {
+        const list = document.getElementById("dataList");
+        list.innerHTML = "";
+        snap.forEach(doc => {
+          const d = document.createElement("div");
+          d.textContent = doc.data().text;
+          list.appendChild(d);
+        });
+      });
+    }
+
+    window.sendToGemini = async () => {
+      const input = document.getElementById("chatInput");
+      const text = input.value;
+      if (!text) return;
+
+      appendMessage(text, "user-msg");
+      input.value = "";
+
+      const res = await fetch(
+        "https://us-central1-the-artisans-fb882.cloudfunctions.net/askGemini",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ prompt: text })
+        }
+      );
+
+      const data = await res.json();
+      appendMessage(data.reply, "ai-msg");
+    };
+
+    function appendMessage(text, cls) {
+      const div = document.createElement("div");
+      div.className = `message ${cls}`;
+      div.innerText = text;
+      document.getElementById("chatMessages").appendChild(div);
+    }
+  </script>
+
+</body>
+</html>
